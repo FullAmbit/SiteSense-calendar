@@ -22,36 +22,17 @@
 * @copyright  Copyright (c) 2011 Full Ambit Media, LLC (http://www.fullambit.com)
 * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
-function calendar_settings() {
+/*
+	!table! = $tableName
+	!prefix! = dynamicPDO::tablePrefix
+*/
+function calendar_addQueries() {
 	return array(
-		'name'      => 'calendar',
-		'shortName' => 'calendar',
-		'version'   => '1.0'
+		'getEventsByYearMonth' => '
+			SELECT *, DATE_FORMAT(eventDate,"%Y-%m-%e") AS eventDate FROM !prefix!events WHERE eventDate LIKE "%2012-10%"
+		',
+		'getEventById' => '
+			SELECT * FROM !prefix!events WHERE id = :id
+		',
 	);
-}
-function calendar_install($db,$drop=false,$firstInstall=false,$lang='en_us') {
-	$structures=array(
-		'events' => array(
-			'id'                    => SQR_IDKey,
-			'title'                 => SQR_title,
-			'eventDate'             => SQR_time,
-			'description'           => 'MEDIUMTEXT NOT NULL',
-			'url'                   => SQR_title,
-			'live'			        => SQR_boolean,
-		),
-		'event_attributes' => array(
-			'event'                 => SQR_ID,
-			'attribute'             => SQR_title,
-			'value'                 => 'MEDIUMTEXT NOT NULL',
-		),
-	);
-	if($drop)
-		calendar_uninstall($db,$lang);
-
-	$db->createTable('events',$structures['events']);
-	$db->createTable('event_attributes',$structures['event_attributes']);
-}
-function calendar_uninstall($db,$lang='en_us') {
-	$db->dropTable('events',$lang);
-	$db->dropTable('event_attributes');
 }
