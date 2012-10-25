@@ -1,30 +1,29 @@
 <?php
 function calendar_template_buildCalendar($month,$year,$events){
-	/* select month control */
 	$select_month_control = '<select name="month" id="month">';
 	for($x = 1; $x <= 12; $x++) {
-		$select_month_control.= '<option value="'.$x.'"'.($x != $month ? '' : ' selected="selected"').'>'.date('F',mktime(0,0,0,$x,1,$year)).'</option>';
+		$select_month_control.= '
+	<option value="'.$x.'"'.($x != $month ? '' : ' selected="selected"').'>'.date('F',mktime(0,0,0,$x,1,$year)).'</option>';
 	}
-	$select_month_control.= '</select>';
-	/* select year control */
+	$select_month_control.= PHP_EOL.'</select>';
 	$year_range = 7;
-	$select_year_control = '<select name="year" id="year">';
+	$select_year_control = PHP_EOL.'<select name="year" id="year">';
 	for($x = ($year-floor($year_range/2)); $x <= ($year+floor($year_range/2)); $x++) {
-	$select_year_control.= '<option value="'.$x.'"'.($x != $year ? '' : ' selected="selected"').'>'.$x.'</option>';
+		$select_year_control.= '
+	<option value="'.$x.'"'.($x != $year ? '' : ' selected="selected"').'>'.$x.'</option>';
 	}
-	$select_year_control.= '</select>';
-	/* "next month" control */
-	$next_month_link = '<a href="?month='.($month != 12 ? $month + 1 : 1).'&year='.($month != 12 ? $year : $year + 1).'" class="control">Next Month &gt;&gt;</a>';
-	/* "previous month" control */
-	$previous_month_link = '<a href="?month='.($month != 1 ? $month - 1 : 12).'&year='.($month != 1 ? $year : $year - 1).'" class="control">&lt;&lt;   Previous Month</a>';
+	$select_year_control.= PHP_EOL.'</select>';
+	$next_month_link = '<a href="?month='.($month != 12 ? $month + 1 : 1).'&amp;year='.($month != 12 ? $year : $year + 1).'" class="control">Next Month &gt;&gt;</a>';
+	$previous_month_link = '<a href="?month='.($month != 1 ? $month - 1 : 12).'&amp;year='.($month != 1 ? $year : $year - 1).'" class="control">&lt;&lt; Previous Month</a>';
 	/* bringing the controls together */
-	$controls = '<form method="get">'.$select_month_control.$select_year_control.'&nbsp;<input type="submit" value="Go" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$previous_month_link.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$next_month_link.' </form>';
+	$controls = '<form method="get">
+	'.$select_month_control.$select_year_control.PHP_EOL.'<input type="submit" value="Go" /> '.$previous_month_link.' '.$next_month_link.'</form>';
 	echo '<div style="float:left;">'.$controls.'</div>';
 	/* draw table */
 	$calendar = '<table cellpadding="0" cellspacing="0" class="calendar">';
 	/* table headings */
 	$headings = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
-	$calendar.= '<tr class="calendar-row"><td class="calendar-day-head">'.implode('</td><td class="calendar-day-head">',$headings).'</td></tr>';
+	$calendar.= '<tr class="calendar-row"><td class="calendar-day-head">'.implode('</td>	<td class="calendar-day-head">',$headings).'</td></tr>';
 	/* days and weeks vars now ... */
 	$running_day = date('w',mktime(0,0,0,$month,1,$year));
 	$days_in_month = date('t',mktime(0,0,0,$month,1,$year));
@@ -40,7 +39,7 @@ function calendar_template_buildCalendar($month,$year,$events){
 	}
 	/* keep going with days.... */
 	for($list_day = 1; $list_day <= $days_in_month; $list_day++){
-		$calendar.= '<td class="calendar-day"><div style="position:relative;height:100px;">';
+		$calendar.= '	<td class="calendar-day"><div style="position:relative;height:100px;">';
 		/* add in the day number */
 		$calendar.= '<div class="day-number">'.$list_day.'</div>';
 		
@@ -74,7 +73,6 @@ function calendar_template_buildCalendar($month,$year,$events){
 	$calendar.= '</tr>';
 	/* end the table */
 	$calendar.= '</table>';
-	/** DEBUG **/
 	$calendar = str_replace('</td>','</td>'."\n",$calendar);
 	$calendar = str_replace('</tr>','</tr>'."\n",$calendar);
 	/* all done, return result */
