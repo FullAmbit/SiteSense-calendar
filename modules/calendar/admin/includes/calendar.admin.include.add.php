@@ -33,6 +33,8 @@ function admin_calendarBuild($data, $db) {
 		$data->output['addEdit']->populateFromPostData();
 		if ($data->output['addEdit']->validateFromPost()){
 			$data->output['addEdit']->sendArray[':description']=htmlentities($data->output['addEdit']->sendArray[':description'],ENT_QUOTES,'UTF-8');
+			$data->output['addEdit']->sendArray[':eventDate'].=' '.$data->output['addEdit']->sendArray[':eventTime'];
+			unset($data->output['addEdit']->sendArray[':eventTime']);
 			$statement=$db->prepare('insertEvent','admin_calendar');
 			if ($statement->execute($data->output['addEdit']->sendArray)) {
 				$data->output['savedOkMessage']='

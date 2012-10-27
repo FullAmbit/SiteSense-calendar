@@ -15,6 +15,7 @@ function languages_calendar_admin_en_us(){
 		'addEditEvent'     => 'Add/Edit Event',
 		'labelTitle'       => 'Event Title',
 		'labelEventDate'   => 'Event Date',
+		'labelEventTime'   => 'Event Time',
 		'labelDescription' => 'Description',
 		'labelLive'        => 'Live?',
 		'labelUrl'         => 'URL',

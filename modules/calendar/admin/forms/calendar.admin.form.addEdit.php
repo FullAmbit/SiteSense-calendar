@@ -47,14 +47,30 @@ $this->fields=array(
 		'label' => $data->phrases['calendar']['labelEventDate'],
 		'required' => true,
 		'tag' => 'input',
-		'value' => 'YYYY-MM-DD HH:MM:SS',
+		'value' => 'YYYY-MM-DD',
 		'params' => array(
 			'type' => 'text',
-			'size' => 19
+			'size' => 16
 		),
 		'description' => '
 			<p>
 				<b>'.$data->phrases['calendar']['labelEventDate'].'</b><br />
+			</p>
+		',
+		'cannotEqual'=>'',
+	),
+	'eventTime' => array(
+		'label' => $data->phrases['calendar']['labelEventTime'],
+		'required' => true,
+		'tag' => 'input',
+		'value' => 'HH:MM:SS',
+		'params' => array(
+			'type' => 'text',
+			'size' => 16
+		),
+		'description' => '
+			<p>
+				<b>'.$data->phrases['calendar']['labelEventTime'].'</b><br />
 			</p>
 		',
 		'cannotEqual'=>'',

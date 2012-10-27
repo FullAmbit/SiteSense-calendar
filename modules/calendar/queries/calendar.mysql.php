@@ -29,10 +29,16 @@
 function calendar_addQueries() {
 	return array(
 		'getEventsByYearMonth' => '
-			SELECT *, DATE_FORMAT(eventDate,"%Y-%m-%e") AS eventDate FROM !prefix!events WHERE eventDate LIKE :yearMonth AND live = 1
+			SELECT *, DATE_FORMAT(eventDate,"%Y-%m-%e") AS eventDate 
+			FROM !prefix!events 
+			WHERE eventDate LIKE :yearMonth 
+				AND live = 1 
+			ORDER BY eventDate ASC
 		',
 		'getEventById' => '
-			SELECT * FROM !prefix!events WHERE id = :id
+			SELECT *, UNIX_TIMESTAMP(eventDate) AS timestamp
+			FROM !prefix!events 
+			WHERE id = :id
 		',
 	);
 }

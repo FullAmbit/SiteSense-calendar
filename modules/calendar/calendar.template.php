@@ -1,5 +1,13 @@
 <?php
-function calendar_template_buildCalendar($month,$year,$events){
+function calendar_template_showEvent($event){
+	echo '<div class="eventTime">
+		Time: ',date('l, j F \a\t g:i A e \i\n ',$event['timestamp']),' time
+	</div>
+	<div class="eventDescription">
+		',html_entity_decode($event['description'],ENT_QUOTES,'UTF-8'),'
+	</div>';
+}
+function calendar_template_buildCalendar($data,$month,$year,$events){
 	$select_month_control = '<select name="month" id="month">';
 	for($x = 1; $x <= 12; $x++) {
 		$select_month_control.= '
@@ -42,25 +50,24 @@ function calendar_template_buildCalendar($month,$year,$events){
 		$calendar.= '	<td class="calendar-day"><div style="position:relative;height:100px;">';
 		/* add in the day number */
 		$calendar.= '<div class="day-number">'.$list_day.'</div>';
-		
 		$event_day = $year.'-'.$month.'-'.$list_day;
 		if(isset($events[$event_day])) {
 			foreach($events[$event_day] as $event) {
-			$calendar.= '<div class="event">'.$event['title'].'</div>';
+			$calendar.= '<div class="event"><a href="'.$data->linkRoot.'calendar/event/'.$event['id'].'">'.$event['title'].'</a></div>';
 			}
 		}
 		else {
 			$calendar.= str_repeat('<p>&nbsp;</p>',2);
 		}
 		$calendar.= '</div></td>';
-		if($running_day == 6):
-		$calendar.= '</tr>';
-		if(($day_counter+1) != $days_in_month):
-			$calendar.= '<tr class="calendar-row">';
-		endif;
-		$running_day = -1;
-		$days_in_this_week = 0;
-		endif;
+		if($running_day == 6){
+			$calendar.= '</tr>';
+			if(($day_counter+1) != $days_in_month){
+				$calendar.= '<tr class="calendar-row">';
+			}
+			$running_day = -1;
+			$days_in_this_week = 0;
+		}
 		$days_in_this_week++; $running_day++; $day_counter++;
 	}
 	/* finish the rest of the days in the week */
