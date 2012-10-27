@@ -5,7 +5,7 @@ function calendar_buildContent($data,$db) {
 	$data->output['pageTitle']=$data->phrases['calendar']['calendar'].' - '.date('F',mktime(0,0,0,$month,1,$year)).' '.$year;
 	$statement=$db->prepare('getEventsByYearMonth','calendar');
 	$statement->execute(array(
-		':yearMonth' => $year.'-'.$month
+		':yearMonth' => '%'.$year.'-'.$month.'%'
 	));
 	$data->output['events']=array();
 	while($event=$statement->fetch(PDO::FETCH_ASSOC)){

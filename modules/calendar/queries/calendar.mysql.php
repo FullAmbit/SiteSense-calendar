@@ -29,7 +29,7 @@
 function calendar_addQueries() {
 	return array(
 		'getEventsByYearMonth' => '
-			SELECT *, DATE_FORMAT(eventDate,"%Y-%m-%e") AS eventDate FROM !prefix!events WHERE eventDate LIKE "%2012-10%"
+			SELECT *, DATE_FORMAT(eventDate,"%Y-%m-%e") AS eventDate FROM !prefix!events WHERE eventDate LIKE :yearMonth AND live = 1
 		',
 		'getEventById' => '
 			SELECT * FROM !prefix!events WHERE id = :id
