@@ -28,7 +28,7 @@ function calendar_content($data) {
 	switch($data->action[1]){
 		case 'event':
 			theme_contentBoxHeader($data->output['pageTitle']);
-			calendar_template_showEvent($data->output['event']);
+			calendar_template_showEvent($data,$data->output['event']);
 			theme_contentBoxFooter();
 			break;
 		default:

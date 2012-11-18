@@ -1,7 +1,7 @@
 <?php
-function calendar_template_showEvent($event){
+function calendar_template_showEvent($data,$event){
 	echo '<div class="eventTime">
-		Time: ',date('l, j F \a\t g:i A e \i\n ',$event['timestamp']),' time
+		Time: ',date('l, j F \a\t g:i A e ',$event['timestamp']),'
 	</div>
 	<div class="eventDescription">
 		',html_entity_decode($event['description'],ENT_QUOTES,'UTF-8'),'
