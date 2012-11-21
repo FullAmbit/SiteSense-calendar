@@ -41,11 +41,12 @@ function admin_calendarBuild($data,$db) {
 	foreach ($data->output['addEdit']->fields as $key => $value) {
 		if ((!empty($value['params']['type'])) && ($value['params']['type']=='checkbox')){
 			$data->output['addEdit']->fields[$key]['checked']= ($item[$key] ? 'checked' : '');
-		} else {
+		} elseif($key!=='eventTime') {
 			$data->output['addEdit']->fields[$key]['value']=$item[$key];
 		}
 	}
-
+	list($data->output['addEdit']->fields['eventDate']['value'],
+		$data->output['addEdit']->fields['eventTime']['value'])=explode(' ',$item['eventDate'],2);
 	if ((!empty($_POST['fromForm'])) && ($_POST['fromForm']==$data->output['addEdit']->fromForm)) {
 		$data->output['addEdit']->populateFromPostData();
 		// Validate Form
