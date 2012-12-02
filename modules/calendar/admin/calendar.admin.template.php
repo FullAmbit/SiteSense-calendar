@@ -32,7 +32,6 @@ function admin_calendar_template_listEvents($data){
 	</table>';
 }
 function admin_calendar_template_buildCalendar($data,$month,$year,$events){
-	echo '<h2>',date('F',mktime(0,0,0,$month,1,$year)).' '.$year,'</h2>';
 	$select_month_control = '<select name="month" id="month">';
 	for($x = 1; $x <= 12; $x++) {
 		$select_month_control.= '
@@ -56,7 +55,8 @@ function admin_calendar_template_buildCalendar($data,$month,$year,$events){
 	$calendar = '<table cellpadding="0" cellspacing="0" class="calendar pagesList">';
 	/* table headings */
 	$headings = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
-	$calendar.= '<tr class="calendar-row"><td class="calendar-day-head">'.implode('</td>	<td class="calendar-day-head">',$headings).'</td></tr>';
+	$calendar.='<caption>'.date('F',mktime(0,0,0,$month,1,$year)).' '.$year.'</caption>';
+	$calendar.= '<tr class="calendar-row"><th class="calendar-day-head">'.implode('</th>	<th class="calendar-day-head">',$headings).'</th></tr>';
 	/* days and weeks vars now ... */
 	$running_day = date('w',mktime(0,0,0,$month,1,$year));
 	$days_in_month = date('t',mktime(0,0,0,$month,1,$year));
