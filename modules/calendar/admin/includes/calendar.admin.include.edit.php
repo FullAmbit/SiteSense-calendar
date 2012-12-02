@@ -45,13 +45,13 @@ function admin_calendarBuild($data,$db) {
 			$data->output['addEdit']->fields[$key]['value']=$item[$key];
 		}
 	}
+	$data->output['addEdit']->fields['description']['value']=html_entity_decode($data->output['addEdit']->fields['description']['value'],ENT_QUOTES,'UTF-8');
 	list($data->output['addEdit']->fields['eventDate']['value'],
 		$data->output['addEdit']->fields['eventTime']['value'])=explode(' ',$item['eventDate'],2);
 	if ((!empty($_POST['fromForm'])) && ($_POST['fromForm']==$data->output['addEdit']->fromForm)) {
 		$data->output['addEdit']->populateFromPostData();
 		// Validate Form
 		if ($data->output['addEdit']->validateFromPost()) {
-			$data->output['addEdit']->fields['description']['value']=html_entity_decode($data->output['addEdit']->fields['description']['value'],ENT_QUOTES,'UTF-8');
 			$data->output['addEdit']->sendArray[':eventDate'].=' '.$data->output['addEdit']->sendArray[':eventTime'];
 			unset($data->output['addEdit']->sendArray[':eventTime']);
 			$statement=$db->prepare('updateEventById','admin_calendar');
