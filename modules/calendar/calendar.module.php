@@ -8,6 +8,7 @@ function calendar_buildContent($data,$db) {
 			));
 			$data->output['event']=$statement->fetch(PDO::FETCH_ASSOC);
 			$data->output['pageTitle']=$data->output['event']['title'];
+			$data->output['event']['timestamp']=strtotime($data->output['event']['eventDate']);
 			break;
 		default:
 			$month=$data->output['calendarMonth']=(int)(!empty($_GET['month']) ? $_GET['month'] : date('m'));

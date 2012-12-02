@@ -54,6 +54,7 @@ function admin_calendarBuild($data,$db) {
 		if ($data->output['addEdit']->validateFromPost()) {
 			$data->output['addEdit']->sendArray[':eventDate'].=' '.$data->output['addEdit']->sendArray[':eventTime'];
 			unset($data->output['addEdit']->sendArray[':eventTime']);
+			$data->output['addEdit']->sendArray[':eventDate']=date('Y-m-d H:i:s',strtotime($data->output['addEdit']->sendArray[':eventDate']));
 			$statement=$db->prepare('updateEventById','admin_calendar');
 			$data->output['addEdit']->sendArray[':id']=$data->action[3];
 			$statement->execute($data->output['addEdit']->sendArray);
