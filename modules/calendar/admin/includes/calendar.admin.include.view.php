@@ -22,39 +22,18 @@
 * @copyright  Copyright (c) 2011 Full Ambit Media, LLC (http://www.fullambit.com)
 * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
-function admin_calendar_addQueries() {
-	return array(
-		'getAllEvents' => '
-			SELECT * FROM !prefix!events
-		',
-		'getEventById' => '
-			SELECT * FROM !prefix!events WHERE id = :id
-		',
-		'insertEvent' => '
-			INSERT INTO !prefix!events
-			       ( title, eventDate, description, live, url)
-			VALUES (:title,:eventDate,:description,:live,:url)
-		',
-		'updateEventById' => '
-			UPDATE !prefix!events
-			SET title = :title,
-				eventDate = :eventDate,
-				description = :description,
-				live = :live,
-				url = :url
-			WHERE id = :id
-			LIMIT 1
-		',
-		'deleteEventById' => '
-			DELETE FROM !prefix!events
-			WHERE id = :id
-			LIMIT 1
-		',
-		'getEventsByYearMonth' => '
-			SELECT *, DATE_FORMAT(eventDate,"%Y-%m-%e") AS eventDate 
-			FROM !prefix!events 
-			WHERE eventDate LIKE :yearMonth 
-			ORDER BY eventDate ASC
-		',
-	);
+function admin_calendarBuild($data,$db) {
+	$month=$data->output['calendarMonth']=(int)(!empty($_GET['month']) ? $_GET['month'] : date('m'));
+	$year=$data->output['calendarYear']=(int)(!empty($_GET['year']) ? $_GET['year'] : date('Y'));
+	$statement=$db->prepare('getEventsByYearMonth','admin_calendar');
+	$statement->execute(array(
+		':yearMonth' => '%'.$year.'-'.$month.'%'
+	));
+	$data->output['events']=array();
+	while($event=$statement->fetch(PDO::FETCH_ASSOC)){
+		$data->output['events'][$event['eventDate']][]=$event;
+	}
+}
+function admin_calendarShow($data) {
+	admin_calendar_template_buildCalendar($data,$data->output['calendarMonth'],$data->output['calendarYear'],$data->output['events']);
 }
